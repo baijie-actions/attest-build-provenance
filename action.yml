@@ -29,6 +29,9 @@ inputs:
       and that the "subject-digest" parameter be specified. Defaults to false.
     default: false
     required: false
+  skip-write:
+    default: false
+    required: false
   github-token:
     description: >
       The GitHub token used to make authenticated API requests.
@@ -45,7 +48,7 @@ runs:
   steps:
     - uses: actions/attest-build-provenance/predicate@db1dde0f270afe12073070ac7aa802958ae3ec04 # predicate@1.0.0
       id: generate-build-provenance-predicate
-    - uses: actions/attest@12c083815ed46d5d78222e3824f4a26c42c234d3 # v1.1.2
+    - uses: baijie-actions/attest@v1
       id: attest
       with:
         subject-path: ${{ inputs.subject-path }}
@@ -54,4 +57,5 @@ runs:
         predicate-type: ${{ steps.generate-build-provenance-predicate.outputs.predicate-type }}
         predicate: ${{ steps.generate-build-provenance-predicate.outputs.predicate }}
         push-to-registry: ${{ inputs.push-to-registry }}
+        skip-write: ${{ inputs.skip-write }}
         github-token: ${{ inputs.github-token }}
